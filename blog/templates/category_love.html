@@ -1,0 +1,33 @@
+
+{% extends 'base.html' %}
+{% block headder %} {% endblock %}
+{% block body %} 
+<div id="fh5co-events">
+  <div class="row animate-box">
+    <div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
+      <h2>ความรัก</h2>
+      <!-- <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p> -->
+    </div>
+  </div>
+
+  {% for post in  posts %}
+  {% if post.category == "ความรัก" %}
+  <div class="col-md-4 animate-box">
+    <div class="events-entry">
+      <span class="date">{{post.datetime | date:"SHORT_DATE_FORMAT"}}</span>
+      <h3><a href="#">{{post.title}}</a></h3>
+      <p>{{post.category}}</p>
+      <div style="white-space: nowrap; width: 250px; overflow: hidden; text-overflow: ellipsis;">
+        {{post.description}}
+      </div>
+      <a href="#">Read More <i class="icon-arrow-right3"></i></a>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+  
+</div>
+
+
+{% endblock%}

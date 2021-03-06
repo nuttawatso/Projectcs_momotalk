@@ -1,0 +1,136 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap");
+</style>
+{% load socialaccount %} {% providers_media_js %} 
+{% load crispy_forms_filters %} {% load static %}
+
+<div class="row container text-dark mt-2 col-md-12">
+  <div class="container text-darkb col-md-3">
+    <label>
+      <h2>หมวดหมู่</h2>
+    </label>
+    <a class="dropdown-item" href="{% url '' %}">ความรัก</a>
+    <a class="dropdown-item" href="{% url '' %}">ปรึกษา</a>
+    <a class="dropdown-item" href="{% url '' %}">การเรียน</a>
+    <a class="dropdown-item" href="{% url '' %}">ปรึกษา</a>
+    {% comment %}
+    <a class="dropdown-item" href="{% url 'catagory_select' 'ทั่วไป' %}"
+      >ทั่วไป</a
+    >
+    <a class="dropdown-item" href="{% url 'catagory_select' 'การเรียน' %}"
+      >การเรียน</a
+    >
+    {% endcomment %}
+  </div>
+  <div class="column justify-content-md-center col-md-9">
+    {% comment %} Blog create post {% endcomment %} 
+    {% if user.is_authenticated %}
+    <div class="col-12 col-md-9">
+      <form action="" method="post" autocomplete="off" class="row g-2">
+        {% csrf_token %}
+        <div class="col-md-9">{{form.title|as_crispy_field}}</div>
+        <div class="col-md-3">{{form.category|as_crispy_field}}</div>
+        <div class="col-md-12">{{form.description|as_crispy_field}}</div>
+        <div class="col-md-12">{{form.picture|as_crispy_field}}</div>
+        <div class="col-md-12">{{form.pic_name|as_crispy_field}}</div>
+        <button
+          type="submit"
+          class="btn btn-success col-2 mx-auto"
+          href="{%url '' %}"
+        >
+          บันทึก
+        </button>
+      </form>
+    </div>
+    {% endif %} {% for post in posts %}
+    <div
+      class="card gedf-card justify-content-md-center col-md-9 no-gutters"
+      style="margin-top: 20px; margin-bottom: 20px"
+    >
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="mr-2">
+              <img class="rounded-circle" width="45" src={% static 'media/' %}{{post.picture}} alt="">
+            </div>
+            <div class="ml-5">
+              <div class="h5 m-1">{{post.pic_name}}</div>
+            </div>
+          </div>
+          <div>
+            <div class="dropdown">
+              <a
+                class="btn dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                  <a
+                    class="dropdown-item btn btn-warning"
+                    href="{% url 'update_post' post.post_id %}"
+                    ><i class="fa fa-edit"> แก้ไขโพสต์</i></a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item btn btn-danger"
+                    href="{% url 'delete_post' post.post_id %}"
+                    method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-text">{{post.title}}</h5>
+        <p class="card-text">{{post.description}}</p>
+        <div class="text-muted h7 mb-2">
+          <i class="fa fa-tags" aria-hidden="true"> {{post.category}}</i>
+        </div>
+        <div class="text-muted h7 mb-2">
+          <i class="fa fa-clock-o"></i> {{post.datetime |date:"SHORT_DATE_FORMAT"}}
+        </div>
+      </div>
+      <div class="card-footer">
+        {% if user.is_authenticated %}
+        <form action="{% url 'like'%}" method="POST">
+          {%csrf_token%}
+          <input type="hidden" name="post_id" value="{{post.post_id}}" />
+          {%if user not in post.liked.all %}
+          <button class="card-link"><i class="fa fa-gittip">Like</i></button>
+          {%else%}
+          <button class="card-link"><i class="fa fa-gittip">Unlike</i></button>
+          {%endif%}
+          <a class="card-link"><i class="fa fa-commenting-o">Comment</i></a>
+        </form>
+        {%endif%} like {{ post.like_count }} 
+        {%if user in post.favourites.all %}
+        <div>
+          <a href="{% url 'favourite_add' post.post_id %}" class=""
+            >Remove Favourties</a
+          >
+        </div>
+        {% else %}
+        <div>
+          <a href="{% url 'favourite_add' post.post_id %}" class=""
+            >Add to Favourties</a
+          >
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <!-- Post /////-->
+
+    {% endfor %}
+  </div>
+</div>
+{% endblock%}

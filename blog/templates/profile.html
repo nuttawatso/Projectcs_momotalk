@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% load static %}
+
+
+
+<div class="row container text-dark mt-2 col-md-12">
+    <div class="container text-darkb col-md-3">
+       
+        </div>
+    <div class="column justify-content-md-center col-md-9">
+        <h1>โปรไฟล์</h1>
+        ชื่อ : {{user.username}}
+        เลขไอดี : {{user.id}}
+        {% for post in posts %}
+        {% if post.user_id == user.id%}
+         <div class="card gedf-card justify-content-md-center col-md-9 no-gutters"   
+         style="margin-top: 20px; margin-bottom: 20px; ">
+                    <div class="card-header" >
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="45" src={% static 'media/' %}{{post.picture}} alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <div class="h5 m-1">{{post.pic_name}}</div>
+                                    
+                                </div>
+                            </div>
+                            <div>
+                                <div class="dropdown">
+                                    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                           
+                                    </a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item btn btn-warning" href="{% url 'update_post' post.post_id %}">แก้ไขโพสต์</a></li>
+                                        <li><a class="dropdown-item btn btn-danger " href="{% url 'delete_post' post.post_id %}" method="post">ลบโพสต์</a></li>
+                                        
+                                    </ul>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-text"> {{post.title}}</h5>
+                        <p class="card-text">
+                            {{post.description}}
+                        </p>
+                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> {{post.datetime |date:"SHORT_DATE_FORMAT"}}</div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                      
+                    </div>
+                </div>
+                <!-- Post /////-->
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock%}
