@@ -8,7 +8,7 @@
   <div class="container text-dark mt-5">
     <div class="row justify-content-md-center">
         <div class="col-md-6 p-3">
-          <form action="" method="post" autocomplete="off" class="row g-3">
+          <form action="{% url 'update_post' id %}" method="post" autocomplete="off" class="row g-3">
               {% csrf_token %}
               <div class="col-md-9">
                   {{form.title|as_crispy_field}}
@@ -19,6 +19,9 @@
               <div class="col-md-12">
                   {{form.description|as_crispy_field}}
               </div>
+              {{form.picture}} 
+              {{form.pic_name}}
+              {{ form.path }}
               <button type="submit" class="btn btn-success col-2 mx-auto">บันทึก</button>
           </form>
       </div>

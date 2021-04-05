@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% load crispy_forms_filters %} 
+{% load crispy_forms_tags %}
+{% load static %}
+<style>
+.likecolor {
+    background-color: #00C494  ;
+    color: white;
+    text-decoration: none;
+    padding: 5px 15px;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+  }
+  .likecolor:hover {
+    background: #009C76;
+  }
+  .likecolor .badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: #ECEAE4;
+    color: #505050;
+  }
+
+  .unlikecolor {
+    background-color: #EEA719   ;
+    position: relative;
+    color: white;
+    text-decoration: none;
+    padding: 5px 15px;
+    display: inline-block;
+    border-radius: 2px;
+  }
+  .unlikecolor:hover {
+    background: #CA990A;
+  }
+  .unlikecolor .badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: #ECEAE4;
+    color: #505050;
+  }
+</style>
+
+
+{% comment %} 
+{{post}} {% endcomment %}
+
+    <div
+      class="card gedf-card justify-content-md-center col-md-12 no-gutters"
+      style="margin-top: 20px; margin-bottom: 20px">
+      <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="mr-2">
+              <img class="rounded-circle" width="55" src={% static 'media/' %}{{post.picture}} alt="">
+            </div>
+            <div class="ml-5">
+              <div class="h5 m-1">{{post.pic_name}}</div>
+            </div>
+          </div>
+          <div>
+            <div class="dropdown">
+              <a
+                class="btn dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+              </a>
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                  <a
+                    class="dropdown-item btn btn-warning"
+                    href="{% url 'update_post' post.post_id %}"
+                    ><i class="fa fa-edit"> แก้ไขโพสต์</i></a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item btn btn-danger"
+                    href="{% url 'delete_post' post.post_id %}"
+                    method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} คลื๊กดูโพสแต่ละโพสต์ {% endcomment %} 
+    <a  style="text-decoration : none;"  method='post'>
+
+      <div class="card-body">
+        <h5 class="card-text">{{post.title}}</h5>
+        <p class="card-text">{{post.description}}</p>
+
+        <div class="text-muted h7 mb-2 justify-content-between align-items-center">
+		หมวดหมู่ :
+          <i class="fa fa-tags" aria-hidden="true"> {{post.category}}</i>
+		  
+          <i class="fa fa-clock-o"></i> {{post.datetime |date:"SHORT_DATE_FORMAT"}}
+        </div>
+      </div>
+  </a>
+
+    <div class="card-footer  col-md-12 d-flex justify-content-between align-items-center " >
+    
+       {% if user.is_authenticated %}
+        <form action="{% url 'like'%}" method="POST" >
+          {%csrf_token%}
+          <input type="hidden" name="post_id" value="{{post.post_id}}" />
+          {%if user not in post.liked.all %}
+          <button class="likecolor btn "><i class="fa fa-thumbs-up" aria-hidden="true"> Like</i><span class="badge">{{ post.like_count }}</span></button>
+          
+          {%else%}
+          <button class="unlikecolor btn "><i class="fa fa-thumbs-down" aria-hidden="true"> UnLike</i><span class="badge">
+          {{ post.like_count }}</span></button>
+          {%endif%}
+  
+        {%endif%} 
+        </form>
+
+
+        {%if user in post.favourites.all %}
+        <div>
+          <a class="btn btn-danger" href="{% url 'favourite_add' post.post_id %}" ><i class="fa fa-minus-square-o" aria-hidden="true"> Remove Favourties</i></a>
+        </div>
+        {% else %}
+        <div>
+          <a class="btn btn-btn-info" href="{% url 'favourite_add' post.post_id %}" ><i class="fa fa-plus-square-o" aria-hidden="true"> Add to Favourties</i></a>
+        </div>
+        {% endif %}
+     </div>
+
+  </div> 
+
+
+
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <div class="headings d-flex justify-content-between align-items-center mb-3">
+                <h5>comments({{all_comments|length}})</h5>
+                <div class="buttons"> <span class="badge bg-white d-flex flex-row align-items-center"> <span class="text-primary">Comments "ON"</span>
+                        <div class="form-check form-switch"> <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked> </div>
+                    </span> </div>
+            </div>
+ {% for comment in all_comments %}
+			<div class="card p-3 mt-3" >
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-row align-items-center">
+					<div class="mr-2">   
+					<img class="rounded-circle" width="55" src={% static 'media/' %}{{comment.picture}} alt=""> 
+					</div>   
+					<span><small class="h6 m-1">{{comment.pic_name}}</small> 
+					
+					</span> </div> 
+					<small>{{comment.timestamp}}
+					</small>
+                </div>
+                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="reply px-4"> {{comment.content}} </div>
+                    
+					<a
+                    class=" btn btn-danger align-items-center"
+                    href="{% url 'del_comment' comment.id%}"
+                    method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i>
+                  </a>
+                </div>
+            </div>
+		
+ {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row container text-dark mt-2 col-md-12">
+	<div class="container text-darkb col-md-3">
+
+		<form method="POST" autocomplete="off" >
+		{% csrf_token %}
+		<div class="col-md-3">
+                  {{comments.as_p}}
+              </div>
+		{{comment.picture}} 
+		{{comment.pic_name}}  
+			<button type="submit" class="btn btn-success col-4 mx-auto" >คอมเมนต์</button>
+		
+		</form>    
+    </div>
+	
+</div>
+
+
+
+{% endblock%}

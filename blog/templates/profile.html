@@ -8,14 +8,13 @@
 
 <div class="row container text-dark mt-2 col-md-12">
     <div class="container text-darkb col-md-3">
-       
-        </div>
+    </div>
     <div class="column justify-content-md-center col-md-9">
         <h1>โปรไฟล์</h1>
         ชื่อ : {{user.username}}
         เลขไอดี : {{user.id}}
         {% for post in posts %}
-        {% if post.user_id == user.id%}
+        {% if post.user_id == user.id %}
          <div class="card gedf-card justify-content-md-center col-md-9 no-gutters"   
          style="margin-top: 20px; margin-bottom: 20px; ">
                     <div class="card-header" >

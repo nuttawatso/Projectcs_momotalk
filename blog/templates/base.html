@@ -14,15 +14,18 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cheatsheet/">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
         integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
-        crossorigin="anonymous" />
+        crossorigin="anonymous" /> {% endcomment %}
+    <link 
+      href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
+      rel="stylesheet"  type='text/css'>
 
     <!-- Bootstrap core CSS -->
 <link href="{% static 'assets/dist/css/bootstrap.min.css' %}"  rel="stylesheet" >
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-
+{% comment %} 
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -37,11 +40,11 @@
           font-size: 3.5rem;
         }
       }
-    </style>
+    </style> {% endcomment %}
 
     
     <!-- Custom styles for this template -->
-    <link href="{% static 'assets/dist/js/cheatsheet.css'%}" rel="stylesheet" >
+    {% comment %} <link href="{% static 'assets/dist/js/cheatsheet.css'%}" rel="stylesheet" > {% endcomment %}
     
     
   </head>
@@ -53,10 +56,12 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
+    <img class="rounded-circle" width="60" src=static/media/logo.png alt="">
     <a class="navbar-brand" href="#">MoMotalk</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
     {% if user.is_authenticated %}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -67,10 +72,16 @@
         <li class="nav-item">
           <a class="nav-link " href="{% url 'profile' %}" tabindex="-1" aria-disabled="true">โปรไฟล์</a>
         </li>
+  
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'favourties' %}" tabindex="-1" aria-disabled="true">โพสต์ที่ติดตาม</a>
+        </li>
+  
       </ul>
     <form class="ms-auto" method="post" action="/accounts/logout/">
     <input type="hidden" name="csrfmiddlewaretoken" value='randomchars'>
-    <label style="color:block">Welcome, {{ user.username }} <span><button class="btn btn btn-danger btn-sm btn-block" type="submit">Sign Out</button></span></label>
+    <label style="color:block">Welcome, {{ user.username }} {{ user.id }} <span>
+    <button class="btn btn btn-danger btn-sm btn-block" type="submit">Sign Out</button></span></label>
       {% csrf_token %}
     </form>
     {% else %}
@@ -83,19 +94,17 @@
 
 
 
-
-
 <div class="container" style=" padding: 30px 0px 30px 0px ;" >
 {% block content %} {% endblock%}
 </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-    </script>
+    </script> {% endcomment %}
 
 
     
