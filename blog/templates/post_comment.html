@@ -6,49 +6,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 <style>
-.likecolor {
-    background-color: #00C494  ;
-    color: white;
-    text-decoration: none;
-    padding: 5px 15px;
-    position: relative;
-    display: inline-block;
-    border-radius: 2px;
-  }
-  .likecolor:hover {
-    background: #009C76;
-  }
-  .likecolor .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: #ECEAE4;
-    color: #505050;
-  }
 
-  .unlikecolor {
-    background-color: #EEA719   ;
-    position: relative;
-    color: white;
-    text-decoration: none;
-    padding: 5px 15px;
-    display: inline-block;
-    border-radius: 2px;
-  }
-  .unlikecolor:hover {
-    background: #CA990A;
-  }
-  .unlikecolor .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: #ECEAE4;
-    color: #505050;
-  }
 </style>
 
 
@@ -62,13 +20,15 @@
         <div class="d-flex justify-content-between align-items-center">
           <div class="d-flex justify-content-between align-items-center">
             <div class="mr-2">
-              <img class="rounded-circle" width="55" src={% static 'media/' %}{{post.picture}} alt="">
+              <img class="rounded-circle" width="45" src={% static 'media/' %}{{post.picture}} alt="">
             </div>
             <div class="ml-5">
               <div class="h5 m-1">{{post.pic_name}}</div>
             </div>
           </div>
           <div>
+          {% comment %} {{user.id}} {% endcomment %}
+  {% if user.id == post.user_id %}
             <div class="dropdown">
               <a
                 class="btn dropdown-toggle"
@@ -92,60 +52,65 @@
                   <a
                     class="dropdown-item btn btn-danger"
                     href="{% url 'delete_post' post.post_id %}"
-                    method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i></a>
+                    method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i>
+                  </a>
                 </li>
               </ul>
+
             </div>
+    {% endif %} 
+
           </div>
         </div>
       </div>
 
       {% comment %} คลื๊กดูโพสแต่ละโพสต์ {% endcomment %} 
-    <a  style="text-decoration : none;"  method='post'>
+    <a   href="{% url 'post_comment' post.post_id %}" method='post'>
 
       <div class="card-body">
         <h5 class="card-text">{{post.title}}</h5>
         <p class="card-text">{{post.description}}</p>
 
         <div class="text-muted h7 mb-2 justify-content-between align-items-center">
-		หมวดหมู่ :
           <i class="fa fa-tags" aria-hidden="true"> {{post.category}}</i>
-		  
           <i class="fa fa-clock-o"></i> {{post.datetime |date:"SHORT_DATE_FORMAT"}}
         </div>
       </div>
   </a>
+       {% if user.is_authenticated %}
 
     <div class="card-footer  col-md-12 d-flex justify-content-between align-items-center " >
     
-       {% if user.is_authenticated %}
-        <form action="{% url 'like'%}" method="POST" >
-          {%csrf_token%}
-          <input type="hidden" name="post_id" value="{{post.post_id}}" />
-          {%if user not in post.liked.all %}
-          <button class="likecolor btn "><i class="fa fa-thumbs-up" aria-hidden="true"> Like</i><span class="badge">{{ post.like_count }}</span></button>
           
-          {%else%}
-          <button class="unlikecolor btn "><i class="fa fa-thumbs-down" aria-hidden="true"> UnLike</i><span class="badge">
-          {{ post.like_count }}</span></button>
-          {%endif%}
+<div class="pr-2">
+          <span class="" id="{{post.post_id}}">{{post.like_count}}</span>
+          <button class="btn btn-link text-dark p-0 border-0 btn-outline-light like-button " value="{{post.post_id}}">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+            </svg>
+          </button>
+        </div>
+
   
-        {%endif%} 
-        </form>
+          <button class="btn btn-primary" href="{% url 'post_comment' post.post_id %}" ><i class="fa fa-commenting-o" aria-hidden="true"> Comment</i></button>
 
 
         {%if user in post.favourites.all %}
-        <div>
-          <a class="btn btn-danger" href="{% url 'favourite_add' post.post_id %}" ><i class="fa fa-minus-square-o" aria-hidden="true"> Remove Favourties</i></a>
-        </div>
+       
+          <button  class="Fav"  value="{{post.post_id}}"  ><i class="fa fa-minus-square-o" id="Fav{{post.post_id}}" aria-hidden="true">Remove Favourties</i></button>
+        
         {% else %}
-        <div>
-          <a class="btn btn-btn-info" href="{% url 'favourite_add' post.post_id %}" ><i class="fa fa-plus-square-o" aria-hidden="true"> Add to Favourties</i></a>
-        </div>
+          <button class="Fav" value="{{post.post_id}}"><i id="Fav{{post.post_id}}" class="fa fa-plus-square-o" aria-hidden="true">Add to Favourties</i></button>
         {% endif %}
      </div>
 
+        {%endif%} 
   </div> 
+    </div> 
+    <!-- Post /////-->
+
 
 
 
@@ -173,12 +138,16 @@
                 </div>
                 <div class="action d-flex justify-content-between mt-2 align-items-center">
                     <div class="reply px-4"> {{comment.content}} </div>
+
+  {% if user.id == comment.user_id %}
                     
 					<a
                     class=" btn btn-danger align-items-center"
                     href="{% url 'del_comment' comment.id%}"
                     method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i>
                   </a>
+    {% endif %} 
+
                 </div>
             </div>
 		
@@ -191,22 +160,28 @@
 
 
 
-<div class="row container text-dark mt-2 col-md-12">
-	<div class="container text-darkb col-md-3">
+
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
 
 		<form method="POST" autocomplete="off" >
 		{% csrf_token %}
-		<div class="col-md-3">
+		<div class="col-md-12">
                   {{comments.as_p}}
-              </div>
 		{{comment.picture}} 
 		{{comment.pic_name}}  
-			<button type="submit" class="btn btn-success col-4 mx-auto" >คอมเมนต์</button>
+			<button type="submit" class="btn btn-success col-2 mx-auto  mt-2" >โพสต์คอมเมนต์</button>
+              </div>
 		
-		</form>    
+		</form> 
+    <div class="container mt-5">
     </div>
-	
+
+        </div>
+    </div>
 </div>
+
 
 
 

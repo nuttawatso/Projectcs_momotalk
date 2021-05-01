@@ -12,6 +12,14 @@
     <meta name="generator" content="Hugo 0.80.0">
     <title>MoMotalk</title>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cheatsheet/">
 
     {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -49,15 +57,23 @@
     
   </head>
 
+{% comment %} style="background-color:#FF0000;" {% endcomment %}
 
+<style type="text/css">
+body {
+  background: url(https://i.pinimg.com/originals/98/ff/8f/98ff8f63dbeac75164523c3b5d2c2c4d.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+	background-size: 100% 280%;
 
+</style>
 
-  <body class="bg-light">
+  <body class="" >
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light  " style="background-color: #B5927E;">
   <div class="container-fluid">
-    <img class="rounded-circle" width="60" src=static/media/logo.png alt="">
-    <a class="navbar-brand" href="#">MoMotalk</a>
+    <img class="" width="200" src=static/logoweb.png alt="">
+    <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -66,22 +82,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url ''  %}">หน้าแรก</a>
+          <a class="nav-link active" aria-current="page" style="color:white; font-size:120%;" href="{% url ''  %}">หน้าแรก</a>
         </li>
   
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'profile' %}" tabindex="-1" aria-disabled="true">โปรไฟล์</a>
+          <a class="nav-link " href="{% url 'profile' %}" style="color:white; font-size:120%;" tabindex="-1" aria-disabled="true">โปรไฟล์</a>
         </li>
   
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'favourties' %}" tabindex="-1" aria-disabled="true">โพสต์ที่ติดตาม</a>
+          <a class="nav-link " href="{% url 'favourties' %}" style="color:white; font-size:120%;" tabindex="-1" aria-disabled="true">โพสต์ที่ติดตาม</a>
         </li>
   
       </ul>
     <form class="ms-auto" method="post" action="/accounts/logout/">
     <input type="hidden" name="csrfmiddlewaretoken" value='randomchars'>
-    <label style="color:block">Welcome, {{ user.username }} {{ user.id }} <span>
-    <button class="btn btn btn-danger btn-sm btn-block" type="submit">Sign Out</button></span></label>
+    <label style="color:white; font-size:120%;">ยินดีต้อนรับ :{{ user.username }}  <span> 
+    <button class="btn btn btn-sm btn-danger btn-block" type="submit"  >Sign Out</button></span></label>
       {% csrf_token %}
     </form>
     {% else %}
@@ -95,21 +111,26 @@
 
 
 <div class="container" style=" padding: 30px 0px 30px 0px ;" >
+{% include 'messages.html' %}
 {% block content %} {% endblock%}
 </div>
 
-
-    {% comment %} <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-    </script> {% endcomment %}
-
-
+    </script> 
     
     <script src="{% static 'assets/dist/js/bootstrap.bundle.min.js' %}"></script>
 
     <script src=" {% static 'assets/dist/js/cheatsheet.js' %}"></script>
+     <script>
+    setTimeout(function(){
+      if ($('#msg').length > 0) {
+        $('#msg').remove();
+      }
+    }, 5000)
+  </script> 
   </body>
 </html>

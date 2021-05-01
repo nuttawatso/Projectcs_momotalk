@@ -22,7 +22,7 @@ urlpatterns = [
 
 
     #fav
-    url(r'^favourite_add/(?P<id>\d+)',views.favourite_add, name='favourite_add'),
+    url(r'^favourite_add',views.favourite_add, name='favourite_add'),
     # post crud
     url(r'^$',views.post_management, name=''),
     # url(r'^$/(?P<categor÷y>\d+)',views.post_management, name=''),
@@ -42,10 +42,6 @@ urlpatterns = [
 
 
 
-
-
-    #category
-     url(r'category_love/', views.category_love, name='category_love'),
 
 
 

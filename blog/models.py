@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 import crum
 #--
 from os import listdir
-from os.path import join as path_join
+
 import time
 #--
 from django.urls import reverse
@@ -15,6 +15,9 @@ CATEGORY_CHOICES = (
     ('ความรัก', 'ความรัก'),
     ('ปรึกษา', 'ปรึกษา'),
     ('การเรียน', 'การเรียน'),
+    ('การเมือง', 'การเมือง'),
+    ('ดนตรี', 'ดนตรี'),
+    ('นิยาย/ซีรี่ย์', 'นิยาย/ซีรี่ย์'),
 )
 
 
