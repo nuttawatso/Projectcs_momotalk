@@ -10,6 +10,8 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.80.0">
+    <link rel="stylesheet" href="style.css">
+
     <title>MoMotalk</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
@@ -20,7 +22,7 @@
 
 
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cheatsheet/">
+    {% comment %} <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cheatsheet/"> {% endcomment %}
 
     {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
         integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
@@ -60,17 +62,18 @@
 {% comment %} style="background-color:#FF0000;" {% endcomment %}
 
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
 body {
   background: url(https://i.pinimg.com/originals/98/ff/8f/98ff8f63dbeac75164523c3b5d2c2c4d.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;
 	background-size: 100% 280%;
-
+  font-family: 'Itim', cursive; }
 </style>
 
   <body class="" >
 
-<nav class="navbar navbar-expand-lg navbar-light  " style="background-color: #B5927E;">
+<nav class="navbar navbar-expand-lg navbar-light"  " style="background-color: #B5927E; padding: 0px 5px;">
   <div class="container-fluid">
     <img class="" width="200" src=static/logoweb.png alt="">
     <a class="navbar-brand" href="#"></a>
@@ -82,26 +85,29 @@ body {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" style="color:white; font-size:120%;" href="{% url ''  %}">หน้าแรก</a>
+          <a class="nav-link active" aria-current="page" style="color:white; font-size:130%;" href="{% url ''  %}">หน้าแรก</a>
         </li>
   
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'profile' %}" style="color:white; font-size:120%;" tabindex="-1" aria-disabled="true">โปรไฟล์</a>
+          <a class="nav-link " href="{% url 'profile' %}" style="color:white; font-size:130%;" tabindex="-1" aria-disabled="true">โปรไฟล์</a>
         </li>
   
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'favourties' %}" style="color:white; font-size:120%;" tabindex="-1" aria-disabled="true">โพสต์ที่ติดตาม</a>
+          <a class="nav-link " href="{% url 'favourties' %}" style="color:white; font-size:130%;" tabindex="-1" aria-disabled="true">โพสต์ที่ติดตาม</a>
         </li>
   
       </ul>
     <form class="ms-auto" method="post" action="/accounts/logout/">
     <input type="hidden" name="csrfmiddlewaretoken" value='randomchars'>
-    <label style="color:white; font-size:120%;">ยินดีต้อนรับ :{{ user.username }}  <span> 
-    <button class="btn btn btn-sm btn-danger btn-block" type="submit"  >Sign Out</button></span></label>
+    <label style="color:white; font-size:130%;">ยินดีต้อนรับ {{ user.username }}
+    <span> 
+    <button class="btn-sm btn-danger btn-block my-2 my-sm-0" type="submit"><i class="fa fa-sign-out" aria-hidden="true">Sign Out</i></button>
+    </span>
+    </label>
       {% csrf_token %}
     </form>
     {% else %}
-    <a href="{% provider_login_url 'google' %}" class="ms-auto btn btn-sm btn-primary btn-block " role="button" aria-pressed="true">Sign in with Google</a>
+    <a href="{% provider_login_url 'google' %}" class=" btn-sm btn-primary btn-block " role="button" ><i class="fa fa-google-plus" aria-hidden="true"> Sign in with Google</i></a>
     {% endif %}
     </div>
   </div>

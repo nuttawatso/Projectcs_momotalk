@@ -8,20 +8,31 @@ class PostsForm(forms.ModelForm):
         widgets = {}
         model = Posts
         path = forms.CharField(required=False)
-        fields = {'title','category','description' , 'picture' ,'pic_name' }
-        widgets = {'picture': forms.HiddenInput(),'pic_name': forms.HiddenInput()}
+        fields = {'title','category','description','picture','pic_name' }
+        widgets = {
+            'picture': forms.HiddenInput(),
+            'pic_name': forms.HiddenInput(),
+            'title' : forms.TextInput(attrs={'style': 'border-color:darkgoldenrod; border-radius: 35px;', 'placeholder':'หัวข้อโพสต์'})
+            
+            }
         labels = {
-            'title':'หัวข้อ',
-            'category':'หมวดหมู่',
-            'description':'รายละเอียด',
+            'title':'',
+            'category':'',
+            'description':'',
+            
         }
-    description = forms.CharField(label ="เนื้อหาข้อความ", widget = forms.Textarea(
+        
+    description = forms.CharField(label ="", widget = forms.Textarea(
     attrs ={
         'class':'form-control',
-        'placeholder':'',
+        'placeholder':'รายละเอียด',
         'rows':3,
        
     }))
+  
+   
+   
+
 
 
 class CommentForm(forms.ModelForm):

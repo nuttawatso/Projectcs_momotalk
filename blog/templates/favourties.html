@@ -5,52 +5,9 @@
 {% load crispy_forms_filters %} 
 {% load static %}
 <style>
-.likecolor {
-    background-color: #00C494  ;
-    color: white;
-    text-decoration: none;
-    padding: 5px 15px;
-    position: relative;
-    display: inline-block;
-    border-radius: 2px;
-  }
-  .likecolor:hover {
-    background: #009C76;
-  }
-  .likecolor .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: #ECEAE4;
-    color: #505050;
-  }
 
-  .unlikecolor {
-    background-color: #EEA719   ;
-    position: relative;
-    color: white;
-    text-decoration: none;
-    padding: 5px 15px;
-    display: inline-block;
-    border-radius: 2px;
-  }
-  .unlikecolor:hover {
-    background: #CA990A;
-  }
-  .unlikecolor .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background: #ECEAE4;
-    color: #505050;
-  }
-
-  
 </style>
+
 <div class="row container text-dark mt-2 col-md-12">
   <div class="container text-darkb col-md-3">
     
@@ -61,10 +18,10 @@
     {% for post in posts %}
     {% if post.favourites.filter %}
     {{post.favourites.user_id}}
-  <div
-      class="card gedf-card justify-content-md-center col-md-9 no-gutters"
-      style="margin-top: 20px; margin-bottom: 20px" >
-      <div class="card-header">
+            <div
+      class="card gedf-card justify-content-md-center col-md-9 no-gutters "
+      style="margin-top: 20px; margin-bottom: 20px "  >
+      <div class="card-header"  style="background-color: #E5C5B6;">
         <div class="d-flex justify-content-between align-items-center">
           <div class="d-flex justify-content-between align-items-center">
             <div class="mr-2">
@@ -72,10 +29,11 @@
             </div>
             <div class="ml-5">
               <div class="h5 m-1">{{post.pic_name}}</div>
-              
             </div>
           </div>
           <div>
+          {% comment %} {{user.id}} {% endcomment %}
+  {% if user.id == post.user_id %}
             <div class="dropdown">
               <a
                 class="btn dropdown-toggle"
@@ -87,7 +45,7 @@
               >
               </a>
 
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <ul class="dropdown-menu" style="background-color: #E5C5B6;" aria-labelledby="dropdownMenuLink">
                 <li>
                   <a
                     class="dropdown-item btn btn-warning"
@@ -99,58 +57,155 @@
                   <a
                     class="dropdown-item btn btn-danger"
                     href="{% url 'delete_post' post.post_id %}"
-                    method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i></a>
+                    method="post"><i class="fa fa-trash" aria-hidden="true"> ลบโพสต์</i>
+                  </a>
                 </li>
               </ul>
+
             </div>
+    {% endif %} 
+
           </div>
         </div>
       </div>
 
-      <div class="card-body">
-        <h5 class="card-text">{{post.title}}</h5>
-        <p class="card-text">{{post.description}}</p>
+      {% comment %} คลื๊กดูโพสแต่ละโพสต์ {% endcomment %} 
+    <a  style="text-decoration : none;" href="{% url 'post_comment' post.post_id %}" method='post'>
+
+      <div class="card-body" style="background-color: #F6EEE3;">
+        <h5 class="card-text" style="color:black">{{post.title}}</h5>
+        <p class="card-text" style="color:black">{{post.description}}</p>
 
         <div class="text-muted h7 mb-2 justify-content-between align-items-center">
           <i class="fa fa-tags" aria-hidden="true"> {{post.category}}</i>
           <i class="fa fa-clock-o"></i> {{post.datetime |date:"SHORT_DATE_FORMAT"}}
         </div>
       </div>
-
-    <div class="card-footer  col-md-12 d-flex justify-content-between align-items-center " >
-    
+  </a>
        {% if user.is_authenticated %}
-        <form action="{% url 'like'%}" method="POST" >
-          {%csrf_token%}
-          <input type="hidden" name="post_id" value="{{post.post_id}}" />
-          {%if user not in post.liked.all %}
-          <button class="likecolor btn "><i class="fa fa-thumbs-up" aria-hidden="true"> Like</i><span class="badge">{{ post.like_count }}</span></button>
+
+    <div class="card-footer  col-md-12 d-flex justify-content-between align-items-center " style="background-color: #E5C5B6;">
+    
           
-          {%else%}
-          <button class="unlikecolor btn "><i class="fa fa-thumbs-down" aria-hidden="true"> UnLike</i><span class="badge">
-          {{ post.like_count }}</span></button>
-          {%endif%}
+<div class="pr-2" >
+          <span class="" id="{{post.post_id}}">{{post.like_count}} </span>
+          {% if user in post.liked.all %}
+          <button class="btn btn-link text-dark p-0 border-2 btn-inline-light like-button " value="{{post.post_id}}" >
+            
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" 
+              xmlns="http://www.w3.org/2000/svg">
+               <path  id="heart{{post.post_id}}" fill="#FF0000" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>
+            
+          </button>
+          {% else %}
+          <button class="btn btn-link text-dark p-0 border-2 btn-inline-light like-button " value="{{post.post_id}}" >
+            
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" 
+              xmlns="http://www.w3.org/2000/svg">
+               <path id="heart{{post.post_id}}"  fill="#fff" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>
+            
+          </button>
+          {% endif %}
+          
+
+    
+        </div>
   
-          <button class="btn btn-primary"><i class="fa fa-commenting-o" aria-hidden="true"> Comment</i></button>
-        {%endif%} 
-        </form>
+          {% comment %} <button class="btn btn-primary" href="{% url 'post_comment' post.post_id %}" ><i class="fa fa-commenting-o" aria-hidden="true"> Comment</i></button> {% endcomment %}
 
 
         {%if user in post.favourites.all %}
-        <div>
+       
+          <button class="Fav btn "  value="{{post.post_id}}" >
+          <i class="" id="Fav{{post.post_id}}" aria-hidden="true"> Remove Favourties</i>
+          </button>
+        
         {% else %}
-        <div>
-          <a class="btn btn-danger" href="{% url 'favourite_add' post.post_id %}" ><i class="fa fa-minus-square-o" aria-hidden="true"> Remove Favourties</i></a>
-        </div>
-          <a class="btn btn-btn-info" href="{% url 'favourite_add' post.post_id %}" ><i class="fa fa-plus-square-o" aria-hidden="true"> Add to Favourties</i></a>
-        </div>
+          <button  class="Fav btn " value="{{post.post_id}}">
+          <i class="" id="Fav{{post.post_id}}"  aria-hidden="true"> Add to Favourties</i>
+          </button>
         {% endif %}
      </div>
 
+        {%endif%} 
   </div> 
-    <!-- Post /////-->
     {% endif %}
     {% endfor %}
   </div>
 </div>
+<script>
+
+
+  $(document).on('click', '.Fav', function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "favourite_add" %}',
+      data: {
+        postid: $(this).val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+      success: function (json,color) {
+        var x = document.getElementById("Fav"+json['postId']);
+  if (x.innerHTML === " Remove Favourties")  {
+    x.innerHTML = " Add to Favourties" 
+
+  } 
+  else if(x.innerHTML === " Add to Favourties") {
+    x.innerHTML = " Remove Favourties"
+  
+  }
+      },
+      error: function (xhr, errmsg, err) {
+        return err
+
+      }
+    });
+  })
+
+  $(document).on('click', '.like-button', function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "like" %}',
+      data: {
+        postid: $(this).val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+      },
+        
+      success: function (json) {
+        if(json['exist']){
+          console.log('1')
+          $("#heart"+json['postId']).css('fill', 'red');
+
+        }
+        else{
+          console.log('0')
+
+          $("#heart"+json['postId']).css('fill', 'white');
+
+
+        }
+      document.getElementById(json['postId']).innerHTML = json['result']
+     
+      },
+      error: function (xhr, errmsg, err) {
+        return err
+
+      }
+
+
+  });
+
+  
+});
+
+
+
+
+</script>
 {% endblock%}
